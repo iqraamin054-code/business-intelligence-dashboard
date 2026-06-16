@@ -11,6 +11,8 @@ import KpiCard from '../components/cards/KpiCard'
 import RevenueChart from '../components/charts/RevenueChart'
 import SalesChart from '../components/charts/SalesChart'
 import CustomerChart from '../components/charts/CustomerChart'
+import CategoryChart from '../components/charts/CategoryChart'
+import CustomerTable from '../components/table/CustomerTable'
 import Sidebar from '../components/layout/Sidebar'
 import './Dashboard.css'
 
@@ -122,8 +124,11 @@ function Dashboard() {
                 <RevenueChart />
                 <SalesChart />
                 <CustomerChart />
+                <CategoryChart />
               </div>
             </section>
+
+            <CustomerTable />
           </div>
         </main>
       </div>
