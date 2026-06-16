@@ -10,6 +10,7 @@ import Header from '../components/layout/Header'
 import KpiCard from '../components/cards/KpiCard'
 import RevenueChart from '../components/charts/RevenueChart'
 import SalesChart from '../components/charts/SalesChart'
+import CustomerChart from '../components/charts/CustomerChart'
 import Sidebar from '../components/layout/Sidebar'
 import './Dashboard.css'
 
@@ -120,6 +121,7 @@ function Dashboard() {
               <div className="dashboard__charts-grid">
                 <RevenueChart />
                 <SalesChart />
+                <CustomerChart />
               </div>
             </section>
           </div>
