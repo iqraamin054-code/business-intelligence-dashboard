@@ -53,31 +53,31 @@ function RevenueChart() {
           >
             <CartesianGrid
               strokeDasharray="3 3"
-              stroke="#e2e8f0"
+              stroke="var(--border-color)"
               vertical={false}
             />
             <XAxis
               dataKey="month"
               axisLine={false}
               tickLine={false}
-              tick={{ fill: '#64748b', fontSize: 12 }}
+              tick={{ fill: 'var(--text-muted)', fontSize: 12, fontWeight: 500 }}
               dy={8}
             />
             <YAxis
               axisLine={false}
               tickLine={false}
-              tick={{ fill: '#64748b', fontSize: 12 }}
+              tick={{ fill: 'var(--text-muted)', fontSize: 12, fontWeight: 500 }}
               tickFormatter={(value) => `$${value / 1000}k`}
               width={48}
             />
-            <Tooltip content={<RevenueTooltip />} cursor={{ stroke: '#cbd5e1' }} />
+            <Tooltip content={<RevenueTooltip />} cursor={{ stroke: 'var(--border-color)', strokeWidth: 1 }} />
             <Line
               type="monotone"
               dataKey="revenue"
-              stroke="#2563eb"
-              strokeWidth={2.5}
-              dot={{ fill: '#2563eb', strokeWidth: 2, r: 4, stroke: '#ffffff' }}
-              activeDot={{ r: 6, fill: '#2563eb', stroke: '#ffffff', strokeWidth: 2 }}
+              stroke="var(--accent)"
+              strokeWidth={3}
+              dot={{ fill: 'var(--accent)', strokeWidth: 2, r: 4, stroke: 'var(--bg-card)' }}
+              activeDot={{ r: 6, fill: 'var(--accent)', stroke: 'var(--bg-card)', strokeWidth: 2 }}
             />
           </LineChart>
         </ResponsiveContainer>

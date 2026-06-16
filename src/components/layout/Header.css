@@ -3,11 +3,16 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  min-height: 4rem;
+  min-height: 4.5rem;
   padding: 0 1.5rem;
-  background: #ffffff;
-  border-bottom: 1px solid #e2e8f0;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+  background: var(--bg-header);
+  border-bottom: 1px solid var(--border-color);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .header__left {
@@ -21,28 +26,29 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2.25rem;
-  height: 2.25rem;
+  width: 2.5rem;
+  height: 2.5rem;
   padding: 0;
   border: none;
-  border-radius: 0.375rem;
+  border-radius: 0.5rem;
   background: transparent;
-  color: #475569;
+  color: var(--text-muted);
   cursor: pointer;
   transition: background 0.2s ease, color 0.2s ease;
 }
 
 .header__menu-btn:hover {
-  background: #f1f5f9;
-  color: #0f172a;
+  background: var(--border-color);
+  color: var(--text-main);
 }
 
 .header__title {
   margin: 0;
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #0f172a;
-  letter-spacing: -0.02em;
+  font-family: var(--font-title);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: -0.03em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -63,66 +69,90 @@
 .header__search-icon {
   position: absolute;
   top: 50%;
-  left: 0.75rem;
+  left: 0.875rem;
   transform: translateY(-50%);
   width: 1rem;
   height: 1rem;
-  color: #94a3b8;
+  color: var(--text-muted);
   pointer-events: none;
+  transition: color 0.2s;
 }
 
 .header__search-input {
-  width: 220px;
-  padding: 0.5rem 0.75rem 0.5rem 2.25rem;
-  border: 1px solid #e2e8f0;
-  border-radius: 0.5rem;
-  background: #f8fafc;
-  color: #0f172a;
+  width: 240px;
+  padding: 0.625rem 0.75rem 0.625rem 2.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+  background: var(--bg-page);
+  color: var(--text-main);
   font-size: 0.875rem;
   outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .header__search-input::placeholder {
-  color: #94a3b8;
+  color: var(--text-muted);
 }
 
 .header__search-input:focus {
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
-  background: #ffffff;
+  border-color: var(--accent);
+  background: var(--bg-card);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+  width: 280px;
 }
 
-.header__icon-btn,
+.header__search-input:focus + .header__search-icon {
+  color: var(--accent);
+}
+
+.header__icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.header__icon-btn:hover {
+  background: var(--border-color);
+  color: var(--text-main);
+  transform: translateY(-1px);
+}
+
+.header__icon-btn:active {
+  transform: translateY(0);
+}
+
 .header__profile {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2.25rem;
-  height: 2.25rem;
+  width: 2.5rem;
+  height: 2.5rem;
   padding: 0;
   border: none;
   border-radius: 9999px;
-  background: #f1f5f9;
-  color: #475569;
+  background: var(--accent-gradient);
+  color: #ffffff;
   cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease;
-}
-
-.header__icon-btn:hover,
-.header__profile:hover {
-  background: #e2e8f0;
-  color: #0f172a;
-}
-
-.header__profile {
-  background: #2563eb;
-  color: #ffffff;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
 }
 
 .header__profile:hover {
-  background: #1d4ed8;
-  color: #ffffff;
+  transform: scale(1.05);
+  box-shadow: var(--accent-glow);
+}
+
+.header__profile:active {
+  transform: scale(0.95);
 }
 
 @media (min-width: 768px) {
@@ -137,16 +167,21 @@
   }
 
   .header__title {
-    font-size: 1.375rem;
+    font-size: 1.5rem;
   }
 }
 
 @media (max-width: 480px) {
   .header {
     padding: 0 1rem;
+    min-height: 4rem;
   }
 
   .header__title {
-    font-size: 1rem;
+    font-size: 1.15rem;
+  }
+  
+  .header__search-input {
+    width: 160px;
   }
 }

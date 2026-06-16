@@ -1,3 +1,4 @@
+/* Design System - Global variables and utilities */
 *,
 *::before,
 *::after {
@@ -5,21 +6,124 @@
 }
 
 :root {
-  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  /* Fonts */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-title: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Accent Color Palettes (RGB for transparency manipulation) */
+  --color-indigo-rgb: 99, 102, 241;
+  --color-indigo-hover-rgb: 79, 70, 229;
+  --color-emerald-rgb: 16, 185, 129;
+  --color-emerald-hover-rgb: 5, 150, 105;
+  --color-amber-rgb: 245, 158, 11;
+  --color-amber-hover-rgb: 217, 119, 6;
+  --color-rose-rgb: 244, 63, 94;
+  --color-rose-hover-rgb: 225, 29, 72;
+  --color-violet-rgb: 139, 92, 246;
+  --color-violet-hover-rgb: 124, 58, 237;
+
+  /* Default Theme: Light Mode */
+  --bg-page: #f8fafc;
+  --bg-sidebar: #0f172a;
+  --bg-sidebar-hover: #1e293b;
+  --bg-sidebar-active: rgba(99, 102, 241, 0.15);
+  --bg-card: #ffffff;
+  --bg-header: rgba(255, 255, 255, 0.8);
+  --bg-glass: rgba(255, 255, 255, 0.7);
+  --border-color: #e2e8f0;
+  --border-glass: rgba(255, 255, 255, 0.5);
+  
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --text-sidebar: #94a3b8;
+  --text-sidebar-active: #60a5fa;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-glow: 0 0 15px rgba(99, 102, 241, 0.15);
+
+  /* Default Accent (Indigo) */
+  --accent-rgb: var(--color-indigo-rgb);
+  --accent-hover-rgb: var(--color-indigo-hover-rgb);
+  --accent: rgb(var(--accent-rgb));
+  --accent-hover: rgb(var(--accent-hover-rgb));
+  --accent-soft: rgba(var(--accent-rgb), 0.1);
+  --accent-glow: 0 0 20px rgba(var(--accent-rgb), 0.25);
+  --accent-gradient: linear-gradient(135deg, rgb(var(--accent-rgb)), rgb(var(--accent-hover-rgb)));
+
+  /* Status Colors */
+  --color-success: #10b981;
+  --color-success-soft: rgba(16, 185, 129, 0.1);
+  --color-warning: #f59e0b;
+  --color-warning-soft: rgba(245, 158, 11, 0.1);
+  --color-danger: #ef4444;
+  --color-danger-soft: rgba(239, 68, 68, 0.1);
+  --color-info: #3b82f6;
+  --color-info-soft: rgba(59, 130, 246, 0.1);
+
+  /* Base Styles */
+  font-family: var(--font-sans);
   line-height: 1.5;
   font-weight: 400;
-  color: #0f172a;
-  background-color: #f1f5f9;
+  color: var(--text-main);
+  background-color: var(--bg-page);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Dark Mode Variables Override */
+.dark {
+  --bg-page: #090d16;
+  --bg-sidebar: #0f131c;
+  --bg-sidebar-hover: #171d2c;
+  --bg-card: #121824;
+  --bg-header: rgba(15, 19, 28, 0.8);
+  --bg-glass: rgba(18, 24, 36, 0.7);
+  --border-color: #1e293b;
+  --border-glass: rgba(255, 255, 255, 0.05);
+
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-sidebar: #64748b;
+  
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.4);
+}
+
+/* Accent Color Variations */
+.accent-indigo {
+  --accent-rgb: var(--color-indigo-rgb);
+  --accent-hover-rgb: var(--color-indigo-hover-rgb);
+}
+.accent-emerald {
+  --accent-rgb: var(--color-emerald-rgb);
+  --accent-hover-rgb: var(--color-emerald-hover-rgb);
+}
+.accent-amber {
+  --accent-rgb: var(--color-amber-rgb);
+  --accent-hover-rgb: var(--color-amber-hover-rgb);
+}
+.accent-rose {
+  --accent-rgb: var(--color-rose-rgb);
+  --accent-hover-rgb: var(--color-rose-hover-rgb);
+}
+.accent-violet {
+  --accent-rgb: var(--color-violet-rgb);
+  --accent-hover-rgb: var(--color-violet-hover-rgb);
+}
+
+/* Base Body Styles */
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  color: var(--text-main);
+  background-color: var(--bg-page);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 #root {
@@ -27,6 +131,40 @@ body {
 }
 
 button,
-input {
+input,
+select,
+textarea {
   font-family: inherit;
+}
+
+/* Global Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Common Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }

@@ -1,17 +1,19 @@
 .revenue-chart {
   padding: 1.5rem;
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 0.75rem;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
+  box-shadow: var(--shadow-sm);
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .revenue-chart__title {
   margin: 0 0 1.25rem;
+  font-family: var(--font-title);
   font-size: 1.125rem;
   font-weight: 600;
-  color: #0f172a;
-  letter-spacing: -0.01em;
+  color: var(--text-main);
+  letter-spacing: -0.02em;
 }
 
 .revenue-chart__container {
@@ -20,24 +22,30 @@
 }
 
 .revenue-chart__tooltip {
-  padding: 0.625rem 0.875rem;
-  background: #0f172a;
-  border-radius: 0.5rem;
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+  padding: 0.75rem 1rem;
+  background: var(--bg-glass);
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .revenue-chart__tooltip-label {
   margin: 0 0 0.25rem;
   font-size: 0.75rem;
-  font-weight: 500;
-  color: #94a3b8;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .revenue-chart__tooltip-value {
   margin: 0;
-  font-size: 0.9375rem;
-  font-weight: 600;
-  color: #f8fafc;
+  font-family: var(--font-title);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-main);
 }
 
 @media (min-width: 768px) {

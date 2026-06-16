@@ -1,7 +1,7 @@
-import { FiBell, FiMenu, FiSearch, FiUser } from 'react-icons/fi'
+import { FiBell, FiMenu, FiSearch, FiUser, FiSun, FiMoon } from 'react-icons/fi'
 import './Header.css'
 
-function Header({ onMenuToggle }) {
+function Header({ onMenuToggle, theme, onThemeToggle }) {
   return (
     <header className="header">
       <div className="header__left">
@@ -13,7 +13,7 @@ function Header({ onMenuToggle }) {
         >
           <FiMenu />
         </button>
-        <h1 className="header__title">Business Intelligence Dashboard</h1>
+        <h1 className="header__title">InsightHub</h1>
       </div>
 
       <div className="header__actions">
@@ -22,10 +22,20 @@ function Header({ onMenuToggle }) {
           <input
             type="search"
             className="header__search-input"
-            placeholder="Search..."
+            placeholder="Search dashboard..."
             aria-label="Search dashboard"
           />
         </div>
+
+        {/* Theme Toggle Button */}
+        <button
+          type="button"
+          className="header__icon-btn header__theme-toggle"
+          onClick={onThemeToggle}
+          aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
+        >
+          {theme === 'light' ? <FiMoon /> : <FiSun />}
+        </button>
 
         <button type="button" className="header__icon-btn" aria-label="Notifications">
           <FiBell />

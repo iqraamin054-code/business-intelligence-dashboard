@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   FiDollarSign,
   FiShoppingCart,
@@ -58,9 +58,24 @@ const pageTitles = {
   settings: 'Settings',
 }
 
+const pageDescriptions = {
+  dashboard: 'Welcome to your business intelligence workspace. Select a section from the sidebar to get started.',
+  analytics: 'Analyze key metrics and trends over time with visual analytics reporting.',
+  reports: 'Generate, filter, and inspect various business performance reports.',
+  settings: 'Configure your intelligence workspace profile and settings.',
+}
+
 function Dashboard() {
   const [activeItem, setActiveItem] = useState('dashboard')
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [theme, setTheme] = useState(() => localStorage.getItem('bi-theme') || 'light')
+
+  // Effect to apply theme (light/dark)
+  useEffect(() => {
+    document.documentElement.classList.remove('light', 'dark')
+    document.documentElement.classList.add(theme)
+    localStorage.setItem('bi-theme', theme)
+  }, [theme])
 
   const handleItemSelect = (itemId) => {
     setActiveItem(itemId)
@@ -77,15 +92,18 @@ function Dashboard() {
       />
 
       <div className="dashboard__main">
-        <Header onMenuToggle={() => setSidebarOpen(true)} />
+        <Header 
+          onMenuToggle={() => setSidebarOpen(true)}
+          theme={theme}
+          onThemeToggle={() => setTheme(t => t === 'light' ? 'dark' : 'light')}
+        />
 
         <main className="dashboard__content">
-          <div className="dashboard__content-inner">
-            <section className="dashboard__welcome">
+          <div className="dashboard__content-inner" key={activeItem}>
+            <section className="dashboard__welcome" aria-label="Welcome section">
               <h2 className="dashboard__page-title">{pageTitles[activeItem]}</h2>
               <p className="dashboard__page-description">
-                Welcome to your business intelligence workspace. Select a section
-                from the sidebar to get started.
+                {pageDescriptions[activeItem]}
               </p>
             </section>
 

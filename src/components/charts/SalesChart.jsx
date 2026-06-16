@@ -47,32 +47,32 @@ function SalesChart() {
           >
             <CartesianGrid
               strokeDasharray="3 3"
-              stroke="#e2e8f0"
+              stroke="var(--border-color)"
               vertical={false}
             />
             <XAxis
               dataKey="category"
               axisLine={false}
               tickLine={false}
-              tick={{ fill: '#64748b', fontSize: 12 }}
+              tick={{ fill: 'var(--text-muted)', fontSize: 12, fontWeight: 500 }}
               dy={8}
               interval={0}
             />
             <YAxis
               axisLine={false}
               tickLine={false}
-              tick={{ fill: '#64748b', fontSize: 12 }}
+              tick={{ fill: 'var(--text-muted)', fontSize: 12, fontWeight: 500 }}
               width={40}
             />
             <Tooltip
               content={<SalesTooltip />}
-              cursor={{ fill: 'rgba(37, 99, 235, 0.08)' }}
+              cursor={{ fill: 'var(--accent-soft)', radius: 6 }}
             />
             <Bar
               dataKey="sales"
-              fill="#2563eb"
-              radius={[4, 4, 0, 0]}
-              maxBarSize={56}
+              fill="var(--accent)"
+              radius={[6, 6, 0, 0]}
+              maxBarSize={52}
             />
           </BarChart>
         </ResponsiveContainer>
