@@ -1,3 +1,4 @@
+import { useSelector } from 'react-redux'
 import {
   Area,
   AreaChart,
@@ -8,15 +9,6 @@ import {
   YAxis,
 } from 'recharts'
 import './CustomerChart.css'
-
-const customerData = [
-  { month: 'Jan', customers: 1200 },
-  { month: 'Feb', customers: 1400 },
-  { month: 'Mar', customers: 1600 },
-  { month: 'Apr', customers: 1900 },
-  { month: 'May', customers: 2300 },
-  { month: 'Jun', customers: 2800 },
-]
 
 function formatNumber(value) {
   return new Intl.NumberFormat('en-US').format(value)
@@ -38,6 +30,8 @@ function CustomerTooltip({ active, payload, label }) {
 }
 
 function CustomerChart() {
+  const customerData = useSelector((state) => state.dashboard.customerData)
+
   return (
     <section className="customer-chart" aria-label="Customer growth chart">
       <h3 className="customer-chart__title">Customer Growth</h3>

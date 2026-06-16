@@ -1,3 +1,4 @@
+import { useSelector } from 'react-redux'
 import {
   Bar,
   BarChart,
@@ -8,13 +9,6 @@ import {
   YAxis,
 } from 'recharts'
 import './SalesChart.css'
-
-const salesData = [
-  { category: 'Electronics', sales: 450 },
-  { category: 'Clothing', sales: 320 },
-  { category: 'Furniture', sales: 210 },
-  { category: 'Books', sales: 180 },
-]
 
 function formatSales(value) {
   return new Intl.NumberFormat('en-US').format(value)
@@ -36,6 +30,8 @@ function SalesTooltip({ active, payload, label }) {
 }
 
 function SalesChart() {
+  const salesData = useSelector((state) => state.dashboard.salesData)
+
   return (
     <section className="sales-chart" aria-label="Sales comparison chart">
       <h3 className="sales-chart__title">Sales Comparison</h3>

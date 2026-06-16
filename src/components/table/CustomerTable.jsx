@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useSelector } from 'react-redux'
 import {
   FiSearch,
   FiChevronUp,
@@ -9,21 +10,6 @@ import {
 } from 'react-icons/fi'
 import './CustomerTable.css'
 
-const sampleCustomers = [
-  { id: 1, name: 'Alice Johnson', revenue: 12450, orders: 45, status: 'Active', region: 'North America' },
-  { id: 2, name: 'Bob Smith', revenue: 8200, orders: 28, status: 'Active', region: 'Europe' },
-  { id: 3, name: 'Charlie Brown', revenue: 0, orders: 0, status: 'Inactive', region: 'North America' },
-  { id: 4, name: 'Diana Prince', revenue: 24500, orders: 82, status: 'Active', region: 'Asia' },
-  { id: 5, name: 'Ethan Hunt', revenue: 15300, orders: 51, status: 'Active', region: 'Europe' },
-  { id: 6, name: 'Fiona Gallagher', revenue: 3200, orders: 12, status: 'Inactive', region: 'North America' },
-  { id: 7, name: 'George Clark', revenue: 19800, orders: 64, status: 'Active', region: 'Asia' },
-  { id: 8, name: 'Hannah Abbott', revenue: 0, orders: 0, status: 'Inactive', region: 'Europe' },
-  { id: 9, name: 'Ian Malcolm', revenue: 11200, orders: 37, status: 'Active', region: 'South America' },
-  { id: 10, name: 'Julia Roberts', revenue: 27100, orders: 95, status: 'Active', region: 'North America' },
-  { id: 11, name: 'Kevin Bacon', revenue: 5400, orders: 19, status: 'Active', region: 'Europe' },
-  { id: 12, name: 'Laura Croft', revenue: 31000, orders: 110, status: 'Active', region: 'Asia' },
-]
-
 function formatCurrency(value) {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -33,6 +19,7 @@ function formatCurrency(value) {
 }
 
 function CustomerTable() {
+  const customers = useSelector((state) => state.dashboard.customers)
   const [searchTerm, setSearchTerm] = useState('')
   const [statusFilter, setStatusFilter] = useState('All')
   const [sortField, setSortField] = useState('revenue') // Default sort by revenue
@@ -52,7 +39,7 @@ function CustomerTable() {
   }
 
   // Filter & Sort logic
-  const filteredCustomers = sampleCustomers
+  const filteredCustomers = customers
     .filter((customer) => {
       const matchesSearch = customer.name.toLowerCase().includes(searchTerm.toLowerCase())
       const matchesStatus = statusFilter === 'All' || customer.status === statusFilter

@@ -1,3 +1,4 @@
+import { useSelector } from 'react-redux'
 import {
   Cell,
   Legend,
@@ -7,13 +8,6 @@ import {
   Tooltip,
 } from 'recharts'
 import './CategoryChart.css'
-
-const categoryData = [
-  { name: 'Electronics', value: 40 },
-  { name: 'Clothing', value: 25 },
-  { name: 'Furniture', value: 20 },
-  { name: 'Books', value: 15 },
-]
 
 const COLORS = [
   'var(--accent)',
@@ -57,6 +51,8 @@ function CategoryTooltip({ active, payload }) {
 }
 
 function CategoryChart() {
+  const categoryData = useSelector((state) => state.dashboard.categoryData)
+
   return (
     <section className="category-chart" aria-label="Category distribution chart">
       <h3 className="category-chart__title">Category Distribution</h3>

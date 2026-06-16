@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import {
   FiDollarSign,
   FiShoppingCart,
@@ -16,43 +17,13 @@ import CustomerTable from '../components/table/CustomerTable'
 import Sidebar from '../components/layout/Sidebar'
 import './Dashboard.css'
 
-const kpiData = [
-  {
-    title: 'Total Revenue',
-    value: '$125,430',
-    trend: '+8.2% from last month',
-    trendDirection: 'up',
-    icon: FiDollarSign,
-  },
-  {
-    title: 'Total Customers',
-    value: '2,845',
-    trend: '+156 new this month',
-    trendDirection: 'up',
-    icon: FiUsers,
-  },
-  {
-    title: 'Total Orders',
-    value: '1,234',
-    trend: '+5.3% from last month',
-    trendDirection: 'up',
-    icon: FiShoppingCart,
-  },
-  {
-    title: 'Monthly Growth',
-    value: '+12.5%',
-    trend: 'Up from 10.1% last month',
-    trendDirection: 'up',
-    icon: FiTrendingUp,
-  },
-  {
-    title: 'Conversion Rate',
-    value: '4.8%',
-    trend: '+0.6% from last month',
-    trendDirection: 'up',
-    icon: FiTarget,
-  },
-]
+const iconMap = {
+  dollar: FiDollarSign,
+  users: FiUsers,
+  cart: FiShoppingCart,
+  trending: FiTrendingUp,
+  target: FiTarget,
+}
 
 const pageTitles = {
   dashboard: 'Dashboard',
@@ -72,6 +43,8 @@ function Dashboard() {
   const [activeItem, setActiveItem] = useState('dashboard')
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [theme, setTheme] = useState(() => localStorage.getItem('bi-theme') || 'light')
+  
+  const kpis = useSelector((state) => state.dashboard.kpis)
 
   // Effect to apply theme (light/dark)
   useEffect(() => {
@@ -113,8 +86,8 @@ function Dashboard() {
             <section className="dashboard__kpi-section" aria-label="Key performance indicators">
               <h3 className="dashboard__section-title">Overview</h3>
               <div className="dashboard__kpi-grid">
-                {kpiData.map((kpi) => (
-                  <KpiCard key={kpi.title} {...kpi} />
+                {kpis.map((kpi) => (
+                  <KpiCard key={kpi.title} {...kpi} icon={iconMap[kpi.iconName]} />
                 ))}
               </div>
             </section>

@@ -1,1 +1,91 @@
-// Redux Slice for Dashboard Placeholder
+import { createSlice } from '@reduxjs/toolkit'
+
+const initialState = {
+  kpis: [
+    {
+      title: 'Total Revenue',
+      value: '$125,430',
+      trend: '+8.2% from last month',
+      trendDirection: 'up',
+      iconName: 'dollar',
+    },
+    {
+      title: 'Total Customers',
+      value: '2,845',
+      trend: '+156 new this month',
+      trendDirection: 'up',
+      iconName: 'users',
+    },
+    {
+      title: 'Total Orders',
+      value: '1,234',
+      trend: '+5.3% from last month',
+      trendDirection: 'up',
+      iconName: 'cart',
+    },
+    {
+      title: 'Monthly Growth',
+      value: '+12.5%',
+      trend: 'Up from 10.1% last month',
+      trendDirection: 'up',
+      iconName: 'trending',
+    },
+    {
+      title: 'Conversion Rate',
+      value: '4.8%',
+      trend: '+0.6% from last month',
+      trendDirection: 'up',
+      iconName: 'target',
+    },
+  ],
+  revenueData: [
+    { month: 'Jan', revenue: 12000 },
+    { month: 'Feb', revenue: 18000 },
+    { month: 'Mar', revenue: 15000 },
+    { month: 'Apr', revenue: 22000 },
+    { month: 'May', revenue: 28000 },
+    { month: 'Jun', revenue: 35000 },
+  ],
+  salesData: [
+    { category: 'Electronics', sales: 450 },
+    { category: 'Clothing', sales: 320 },
+    { category: 'Furniture', sales: 210 },
+    { category: 'Books', sales: 180 },
+  ],
+  customerData: [
+    { month: 'Jan', customers: 1200 },
+    { month: 'Feb', customers: 1400 },
+    { month: 'Mar', customers: 1600 },
+    { month: 'Apr', customers: 1900 },
+    { month: 'May', customers: 2300 },
+    { month: 'Jun', customers: 2800 },
+  ],
+  categoryData: [
+    { name: 'Electronics', value: 40 },
+    { name: 'Clothing', value: 25 },
+    { name: 'Furniture', value: 20 },
+    { name: 'Books', value: 15 },
+  ],
+  customers: [
+    { id: 1, name: 'Alice Johnson', revenue: 12450, orders: 45, status: 'Active', region: 'North America' },
+    { id: 2, name: 'Bob Smith', revenue: 8200, orders: 28, status: 'Active', region: 'Europe' },
+    { id: 3, name: 'Charlie Brown', revenue: 0, orders: 0, status: 'Inactive', region: 'North America' },
+    { id: 4, name: 'Diana Prince', revenue: 24500, orders: 82, status: 'Active', region: 'Asia' },
+    { id: 5, name: 'Ethan Hunt', revenue: 15300, orders: 51, status: 'Active', region: 'Europe' },
+    { id: 6, name: 'Fiona Gallagher', revenue: 3200, orders: 12, status: 'Inactive', region: 'North America' },
+    { id: 7, name: 'George Clark', revenue: 19800, orders: 64, status: 'Active', region: 'Asia' },
+    { id: 8, name: 'Hannah Abbott', revenue: 0, orders: 0, status: 'Inactive', region: 'Europe' },
+    { id: 9, name: 'Ian Malcolm', revenue: 11200, orders: 37, status: 'Active', region: 'South America' },
+    { id: 10, name: 'Julia Roberts', revenue: 27100, orders: 95, status: 'Active', region: 'North America' },
+    { id: 11, name: 'Kevin Bacon', revenue: 5400, orders: 19, status: 'Active', region: 'Europe' },
+    { id: 12, name: 'Laura Croft', revenue: 31000, orders: 110, status: 'Active', region: 'Asia' },
+  ],
+}
+
+const dashboardSlice = createSlice({
+  name: 'dashboard',
+  initialState,
+  reducers: {},
+})
+
+export default dashboardSlice.reducer

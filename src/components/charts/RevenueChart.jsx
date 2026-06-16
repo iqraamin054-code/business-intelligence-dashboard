@@ -1,3 +1,4 @@
+import { useSelector } from 'react-redux'
 import {
   CartesianGrid,
   Line,
@@ -8,15 +9,6 @@ import {
   YAxis,
 } from 'recharts'
 import './RevenueChart.css'
-
-const revenueData = [
-  { month: 'Jan', revenue: 12000 },
-  { month: 'Feb', revenue: 18000 },
-  { month: 'Mar', revenue: 15000 },
-  { month: 'Apr', revenue: 22000 },
-  { month: 'May', revenue: 28000 },
-  { month: 'Jun', revenue: 35000 },
-]
 
 function formatCurrency(value) {
   return new Intl.NumberFormat('en-US', {
@@ -42,6 +34,8 @@ function RevenueTooltip({ active, payload, label }) {
 }
 
 function RevenueChart() {
+  const revenueData = useSelector((state) => state.dashboard.revenueData)
+
   return (
     <section className="revenue-chart" aria-label="Revenue trend chart">
       <h3 className="revenue-chart__title">Revenue Trend</h3>
