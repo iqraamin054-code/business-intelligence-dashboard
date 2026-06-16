@@ -1,0 +1,1 @@
+// Category Chart Component Placeholder
