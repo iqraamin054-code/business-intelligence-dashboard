@@ -16,7 +16,7 @@ const COLORS = [
   'rgb(var(--color-amber-rgb))',
 ]
 
-const renderCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, name }) => {
+const renderCustomLabel = ({ cx, cy, midAngle, outerRadius, percent, name }) => {
   const RADIAN = Math.PI / 180
   const radius = outerRadius + 15
   const x = cx + radius * Math.cos(-midAngle * RADIAN)

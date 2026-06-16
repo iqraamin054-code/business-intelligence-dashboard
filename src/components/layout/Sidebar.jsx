@@ -5,16 +5,17 @@ import {
   FiSettings,
   FiX,
 } from 'react-icons/fi'
+import { NavLink } from 'react-router-dom'
 import './Sidebar.css'
 
 const navItems = [
-  { id: 'dashboard', label: 'Dashboard', icon: FiLayout },
-  { id: 'analytics', label: 'Analytics', icon: FiBarChart2 },
-  { id: 'reports', label: 'Reports', icon: FiFileText },
-  { id: 'settings', label: 'Settings', icon: FiSettings },
+  { path: '/', label: 'Dashboard', icon: FiLayout },
+  { path: '/analytics', label: 'Analytics', icon: FiBarChart2 },
+  { path: '/reports', label: 'Reports', icon: FiFileText },
+  { path: '/settings', label: 'Settings', icon: FiSettings },
 ]
 
-function Sidebar({ activeItem, onItemSelect, isOpen, onClose }) {
+function Sidebar({ isOpen, onClose, onNavigate }) {
   return (
     <>
       <div
@@ -41,17 +42,19 @@ function Sidebar({ activeItem, onItemSelect, isOpen, onClose }) {
 
         <nav className="sidebar__nav" aria-label="Main navigation">
           <ul className="sidebar__list">
-            {navItems.map(({ id, label, icon: Icon }) => (
-              <li key={id}>
-                <button
-                  type="button"
-                  className={`sidebar__link ${activeItem === id ? 'sidebar__link--active' : ''}`}
-                  onClick={() => onItemSelect(id)}
-                  aria-current={activeItem === id ? 'page' : undefined}
+            {navItems.map(({ path, label, icon: Icon }) => (
+              <li key={path}>
+                <NavLink
+                  to={path}
+                  end={path === '/'}
+                  className={({ isActive }) =>
+                    `sidebar__link ${isActive ? 'sidebar__link--active' : ''}`
+                  }
+                  onClick={onNavigate}
                 >
                   <Icon className="sidebar__link-icon" aria-hidden="true" />
                   <span>{label}</span>
-                </button>
+                </NavLink>
               </li>
             ))}
           </ul>
