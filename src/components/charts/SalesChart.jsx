@@ -29,12 +29,12 @@ function SalesTooltip({ active, payload, label }) {
   )
 }
 
-function SalesChart() {
+function SalesChart({ title = 'Sales Comparison' }) {
   const salesData = useSelector((state) => state.dashboard.salesData)
 
   return (
     <section className="sales-chart" aria-label="Sales comparison chart">
-      <h3 className="sales-chart__title">Sales Comparison</h3>
+      <h3 className="sales-chart__title">{title}</h3>
       <div className="sales-chart__container">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart

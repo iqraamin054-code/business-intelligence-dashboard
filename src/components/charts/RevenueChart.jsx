@@ -33,12 +33,12 @@ function RevenueTooltip({ active, payload, label }) {
   )
 }
 
-function RevenueChart() {
+function RevenueChart({ title = 'Revenue Trend' }) {
   const revenueData = useSelector((state) => state.dashboard.revenueData)
 
   return (
     <section className="revenue-chart" aria-label="Revenue trend chart">
-      <h3 className="revenue-chart__title">Revenue Trend</h3>
+      <h3 className="revenue-chart__title">{title}</h3>
       <div className="revenue-chart__container">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart

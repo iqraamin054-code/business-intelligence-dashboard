@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Navigate, Outlet, Route, Routes } from 'react-router-dom'
+import { Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { getDashboardData } from './redux/dashboardSlice'
 import Header from './components/layout/Header'
@@ -8,23 +8,38 @@ import Dashboard from './pages/Dashboard'
 import Analytics from './pages/Analytics'
 import Reports from './pages/Reports'
 import Settings from './pages/Settings'
+import { getTranslator } from './utils/i18n'
 import './pages/Dashboard.css'
 
 function AppShell() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [theme, setTheme] = useState(() => localStorage.getItem('bi-theme') || 'light')
+  const [language, setLanguage] = useState(() => localStorage.getItem('bi-language') || 'en')
+  const [searchText, setSearchText] = useState('')
   const dispatch = useDispatch()
   const { loading, error, dataFetched } = useSelector((state) => state.dashboard)
+  const t = getTranslator(language)
+  const location = useLocation()
 
   useEffect(() => {
     dispatch(getDashboardData())
   }, [dispatch])
 
   useEffect(() => {
+    setSearchText('')
+  }, [location.pathname])
+
+  useEffect(() => {
     document.documentElement.classList.remove('light', 'dark')
     document.documentElement.classList.add(theme)
     localStorage.setItem('bi-theme', theme)
   }, [theme])
+
+  useEffect(() => {
+    document.documentElement.lang = language
+    document.documentElement.dir = language === 'ur' ? 'rtl' : 'ltr'
+    localStorage.setItem('bi-language', language)
+  }, [language])
 
   const toggleTheme = () => {
     setTheme((currentTheme) => (currentTheme === 'light' ? 'dark' : 'light'))
@@ -36,6 +51,7 @@ function AppShell() {
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
         onNavigate={() => setSidebarOpen(false)}
+        t={t}
       />
 
       <div className="dashboard__main">
@@ -43,28 +59,45 @@ function AppShell() {
           onMenuToggle={() => setSidebarOpen(true)}
           theme={theme}
           onThemeToggle={toggleTheme}
+          language={language}
+          onLanguageChange={setLanguage}
+          searchValue={searchText}
+          onSearchChange={setSearchText}
+          t={t}
+          loading={loading}
+          error={error}
         />
 
         <main className="dashboard__content">
           {loading || !dataFetched ? (
             <div className="dashboard__state dashboard__state--loading">
               <div className="dashboard__spinner"></div>
-              <p>Fetching dashboard metrics...</p>
+              <p>{t('fetchingMetrics')}</p>
             </div>
           ) : error ? (
             <div className="dashboard__state dashboard__state--error">
               <div className="dashboard__state-icon" role="img" aria-label="Warning">!</div>
-              <h4 className="dashboard__state-title">System Error</h4>
+              <h4 className="dashboard__state-title">{t('systemError')}</h4>
               <p className="dashboard__state-desc">{error}</p>
               <button
                 className="dashboard__state-btn"
                 onClick={() => dispatch(getDashboardData())}
               >
-                Retry Request
+                {t('retryRequest')}
               </button>
             </div>
           ) : (
-            <Outlet context={{ theme, setTheme, toggleTheme }} />
+            <Outlet
+              context={{
+                theme,
+                setTheme,
+                toggleTheme,
+                language,
+                t,
+                searchText,
+                setSearchText,
+              }}
+            />
           )}
         </main>
       </div>

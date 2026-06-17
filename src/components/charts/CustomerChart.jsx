@@ -29,12 +29,12 @@ function CustomerTooltip({ active, payload, label }) {
   )
 }
 
-function CustomerChart() {
+function CustomerChart({ title = 'Customer Growth' }) {
   const customerData = useSelector((state) => state.dashboard.customerData)
 
   return (
     <section className="customer-chart" aria-label="Customer growth chart">
-      <h3 className="customer-chart__title">Customer Growth</h3>
+      <h3 className="customer-chart__title">{title}</h3>
       <div className="customer-chart__container">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart

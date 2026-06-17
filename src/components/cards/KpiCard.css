@@ -2,22 +2,22 @@
   padding: 1.5rem;
   background: var(--bg-card);
   border: 1px solid var(--border-color);
-  border-radius: 1rem;
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
   position: relative;
   overflow: hidden;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
-              box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
-              border-color 0.3s ease, 
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.25s ease,
               background-color 0.3s ease;
 }
 
 .kpi-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-3px);
   border-color: var(--accent);
-  box-shadow: var(--shadow-lg), var(--accent-glow);
+  box-shadow: var(--shadow-md), var(--accent-glow);
 }
 
 .kpi-card::after {
@@ -46,7 +46,7 @@
 }
 
 .kpi-card__title {
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   font-weight: 600;
   color: var(--text-muted);
   line-height: 1.4;
@@ -61,10 +61,10 @@
   flex-shrink: 0;
   width: 2.5rem;
   height: 2.5rem;
-  border-radius: 0.75rem;
+  border-radius: var(--radius-md);
   background: var(--accent-soft);
   color: var(--accent);
-  transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+  transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
 }
 
 .kpi-card:hover .kpi-card__icon {

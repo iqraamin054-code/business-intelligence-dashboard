@@ -11,60 +11,65 @@
   --font-title: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
   /* Accent Color Palettes (RGB for transparency manipulation) */
-  --color-indigo-rgb: 99, 102, 241;
-  --color-indigo-hover-rgb: 79, 70, 229;
+  --color-indigo-rgb: 124, 108, 242;
+  --color-indigo-hover-rgb: 107, 89, 230;
   --color-emerald-rgb: 16, 185, 129;
   --color-emerald-hover-rgb: 5, 150, 105;
   --color-amber-rgb: 245, 158, 11;
   --color-amber-hover-rgb: 217, 119, 6;
-  --color-rose-rgb: 244, 63, 94;
-  --color-rose-hover-rgb: 225, 29, 72;
-  --color-violet-rgb: 139, 92, 246;
-  --color-violet-hover-rgb: 124, 58, 237;
+  --color-rose-rgb: 239, 68, 68;
+  --color-rose-hover-rgb: 220, 38, 38;
+  --color-violet-rgb: 124, 108, 242;
+  --color-violet-hover-rgb: 107, 89, 230;
 
-  /* Default Theme: Light Mode */
-  --bg-page: #f8fafc;
-  --bg-sidebar: #0f172a;
-  --bg-sidebar-hover: #1e293b;
-  --bg-sidebar-active: rgba(99, 102, 241, 0.15);
-  --bg-card: #ffffff;
-  --bg-header: rgba(255, 255, 255, 0.8);
-  --bg-glass: rgba(255, 255, 255, 0.7);
-  --border-color: #e2e8f0;
+  /* ─── Light Theme ─── */
+  --bg-page: #F8F9FB;
+  --bg-sidebar: #1F2937;
+  --bg-sidebar-hover: #374151;
+  --bg-sidebar-active: rgba(124, 108, 242, 0.12);
+  --bg-card: #FFFFFF;
+  --bg-header: rgba(255, 255, 255, 0.85);
+  --bg-glass: rgba(255, 255, 255, 0.75);
+  --border-color: #E5E7EB;
   --border-glass: rgba(255, 255, 255, 0.5);
-  
-  --text-main: #0f172a;
-  --text-muted: #64748b;
-  --text-sidebar: #94a3b8;
-  --text-sidebar-active: #60a5fa;
 
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.05);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --shadow-glow: 0 0 15px rgba(99, 102, 241, 0.15);
+  --text-main: #111827;
+  --text-muted: #6B7280;
+  --text-sidebar: #9CA3AF;
+  --text-sidebar-active: #7C6CF2;
 
-  /* Default Accent (Indigo) */
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.03);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+  --shadow-glow: 0 0 20px rgba(124, 108, 242, 0.12);
+
+  /* Default Accent (#7C6CF2 purple) */
   --accent-rgb: var(--color-indigo-rgb);
   --accent-hover-rgb: var(--color-indigo-hover-rgb);
   --accent: rgb(var(--accent-rgb));
   --accent-hover: rgb(var(--accent-hover-rgb));
-  --accent-soft: rgba(var(--accent-rgb), 0.1);
-  --accent-glow: 0 0 20px rgba(var(--accent-rgb), 0.25);
+  --accent-soft: rgba(var(--accent-rgb), 0.08);
+  --accent-glow: 0 0 24px rgba(var(--accent-rgb), 0.2);
   --accent-gradient: linear-gradient(135deg, rgb(var(--accent-rgb)), rgb(var(--accent-hover-rgb)));
 
   /* Status Colors */
-  --color-success: #10b981;
-  --color-success-soft: rgba(16, 185, 129, 0.1);
-  --color-warning: #f59e0b;
-  --color-warning-soft: rgba(245, 158, 11, 0.1);
-  --color-danger: #ef4444;
-  --color-danger-soft: rgba(239, 68, 68, 0.1);
-  --color-info: #3b82f6;
-  --color-info-soft: rgba(59, 130, 246, 0.1);
+  --color-success: #10B981;
+  --color-success-soft: rgba(16, 185, 129, 0.08);
+  --color-warning: #F59E0B;
+  --color-warning-soft: rgba(245, 158, 11, 0.08);
+  --color-danger: #EF4444;
+  --color-danger-soft: rgba(239, 68, 68, 0.08);
+  --color-info: #3B82F6;
+  --color-info-soft: rgba(59, 130, 246, 0.08);
+
+  /* Shared radius tokens */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
 
   /* Base Styles */
   font-family: var(--font-sans);
-  line-height: 1.5;
+  line-height: 1.6;
   font-weight: 400;
   color: var(--text-main);
   background-color: var(--bg-page);
@@ -74,24 +79,24 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Dark Mode Variables Override */
+/* ─── Dark Theme ─── */
 .dark {
-  --bg-page: #090d16;
-  --bg-sidebar: #0f131c;
-  --bg-sidebar-hover: #171d2c;
-  --bg-card: #121824;
-  --bg-header: rgba(15, 19, 28, 0.8);
-  --bg-glass: rgba(18, 24, 36, 0.7);
-  --border-color: #1e293b;
+  --bg-page: #0B0F1A;
+  --bg-sidebar: #111827;
+  --bg-sidebar-hover: #1F2937;
+  --bg-card: #141A2A;
+  --bg-header: rgba(17, 24, 39, 0.85);
+  --bg-glass: rgba(20, 26, 42, 0.8);
+  --border-color: #1E293B;
   --border-glass: rgba(255, 255, 255, 0.05);
 
-  --text-main: #f8fafc;
-  --text-muted: #94a3b8;
-  --text-sidebar: #64748b;
-  
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.4);
+  --text-main: #F1F5F9;
+  --text-muted: #94A3B8;
+  --text-sidebar: #64748B;
+
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 2px -1px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.35), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
 }
 
 /* Accent Color Variations */
@@ -99,18 +104,22 @@
   --accent-rgb: var(--color-indigo-rgb);
   --accent-hover-rgb: var(--color-indigo-hover-rgb);
 }
+
 .accent-emerald {
   --accent-rgb: var(--color-emerald-rgb);
   --accent-hover-rgb: var(--color-emerald-hover-rgb);
 }
+
 .accent-amber {
   --accent-rgb: var(--color-amber-rgb);
   --accent-hover-rgb: var(--color-amber-hover-rgb);
 }
+
 .accent-rose {
   --accent-rgb: var(--color-rose-rgb);
   --accent-hover-rgb: var(--color-rose-hover-rgb);
 }
+
 .accent-violet {
   --accent-rgb: var(--color-violet-rgb);
   --accent-hover-rgb: var(--color-violet-hover-rgb);
@@ -137,18 +146,30 @@ textarea {
   font-family: inherit;
 }
 
+/* Global focus-visible ring */
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
 /* Global Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
+
 ::-webkit-scrollbar-track {
   background: transparent;
 }
+
 ::-webkit-scrollbar-thumb {
   background: var(--border-color);
-  border-radius: 4px;
+  border-radius: 3px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: var(--text-muted);
 }
@@ -157,8 +178,9 @@ textarea {
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(6px);
+    transform: translateY(8px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);

@@ -1,12 +1,9 @@
-import { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useMemo, useState } from 'react'
 import {
-  FiSearch,
-  FiChevronUp,
   FiChevronDown,
   FiChevronLeft,
   FiChevronRight,
-  FiFilter,
+  FiChevronUp,
 } from 'react-icons/fi'
 import './CustomerTable.css'
 
@@ -18,34 +15,23 @@ function formatCurrency(value) {
   }).format(value)
 }
 
-function CustomerTable() {
-  const customers = useSelector((state) => state.dashboard.customers)
-  const [searchTerm, setSearchTerm] = useState('')
-  const [statusFilter, setStatusFilter] = useState('All')
-  const [sortField, setSortField] = useState('revenue') // Default sort by revenue
-  const [sortOrder, setSortOrder] = useState('desc') // Default desc
+function CustomerTable({ customers, t, searchText = '', language }) {
+  const [sortField, setSortField] = useState('revenue')
+  const [sortOrder, setSortOrder] = useState('desc')
   const [currentPage, setCurrentPage] = useState(1)
   const rowsPerPage = 5
 
-  // Handle sorting
   const handleSort = (field) => {
     if (sortField === field) {
-      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
+      setSortOrder((currentOrder) => (currentOrder === 'asc' ? 'desc' : 'asc'))
     } else {
       setSortField(field)
       setSortOrder('desc')
     }
-    setCurrentPage(1)
   }
 
-  // Filter & Sort logic
-  const filteredCustomers = customers
-    .filter((customer) => {
-      const matchesSearch = customer.name.toLowerCase().includes(searchTerm.toLowerCase())
-      const matchesStatus = statusFilter === 'All' || customer.status === statusFilter
-      return matchesSearch && matchesStatus
-    })
-    .sort((a, b) => {
+  const sortedCustomers = useMemo(() => {
+    return [...customers].sort((a, b) => {
       if (!sortField) return 0
       const valueA = a[sortField]
       const valueB = b[sortField]
@@ -58,90 +44,54 @@ function CustomerTable() {
       }
       return 0
     })
+  }, [customers, sortField, sortOrder])
 
-  // Pagination
-  const totalPages = Math.ceil(filteredCustomers.length / rowsPerPage) || 1
-  const paginatedCustomers = filteredCustomers.slice(
-    (currentPage - 1) * rowsPerPage,
-    currentPage * rowsPerPage
+  const totalPages = Math.ceil(sortedCustomers.length / rowsPerPage) || 1
+  const safeCurrentPage = Math.min(currentPage, totalPages)
+  const paginatedCustomers = sortedCustomers.slice(
+    (safeCurrentPage - 1) * rowsPerPage,
+    safeCurrentPage * rowsPerPage
   )
-
-  // Reset pagination if search/filter changes totalPages to be less than current page
-  if (currentPage > totalPages) {
-    setCurrentPage(totalPages)
-  }
 
   return (
     <section className="customer-table-section" aria-label="Customer records table">
       <div className="customer-table-header">
-        <h3 className="customer-table-title">Customer Details</h3>
-        
-        <div className="customer-table-controls">
-          <div className="customer-table-search-wrapper">
-            <FiSearch className="customer-table-search-icon" />
-            <input
-              type="text"
-              placeholder="Search customers..."
-              value={searchTerm}
-              onChange={(e) => {
-                setSearchTerm(e.target.value)
-                setCurrentPage(1)
-              }}
-              className="customer-table-search-input"
-            />
-          </div>
-
-          <div className="customer-table-filter-wrapper">
-            <FiFilter className="customer-table-filter-icon" />
-            <select
-              value={statusFilter}
-              onChange={(e) => {
-                setStatusFilter(e.target.value)
-                setCurrentPage(1)
-              }}
-              className="customer-table-filter-select"
-            >
-              <option value="All">All Statuses</option>
-              <option value="Active">Active</option>
-              <option value="Inactive">Inactive</option>
-            </select>
-          </div>
-        </div>
+        <h3 className="customer-table-title">{t('customerDetails')}</h3>
       </div>
 
       <div className="customer-table-container">
         <table className="customer-table">
           <thead>
             <tr>
-              <th>Customer Name</th>
-              <th 
-                onClick={() => handleSort('revenue')} 
+              <th>{t('customerName')}</th>
+              <th
+                onClick={() => handleSort('revenue')}
                 className="sortable-header"
                 role="columnheader"
                 aria-sort={sortField === 'revenue' ? (sortOrder === 'asc' ? 'ascending' : 'descending') : 'none'}
               >
                 <div className="header-cell-content">
-                  Revenue
+                  {t('revenue')}
                   <span className={`sort-icon ${sortField === 'revenue' ? 'active' : ''}`}>
                     {sortField === 'revenue' && sortOrder === 'asc' ? <FiChevronUp /> : <FiChevronDown />}
                   </span>
                 </div>
               </th>
-              <th 
-                onClick={() => handleSort('orders')} 
+              <th
+                onClick={() => handleSort('orders')}
                 className="sortable-header"
                 role="columnheader"
                 aria-sort={sortField === 'orders' ? (sortOrder === 'asc' ? 'ascending' : 'descending') : 'none'}
               >
                 <div className="header-cell-content">
-                  Orders
+                  {t('orders')}
                   <span className={`sort-icon ${sortField === 'orders' ? 'active' : ''}`}>
                     {sortField === 'orders' && sortOrder === 'asc' ? <FiChevronUp /> : <FiChevronDown />}
                   </span>
                 </div>
               </th>
-              <th>Status</th>
-              <th>Region</th>
+              <th>{t('status')}</th>
+              <th>{t('region')}</th>
             </tr>
           </thead>
           <tbody>
@@ -153,7 +103,7 @@ function CustomerTable() {
                   <td>{customer.orders}</td>
                   <td>
                     <span className={`status-badge status-${customer.status.toLowerCase()}`}>
-                      {customer.status}
+                      {customer.status === 'Active' ? t('active') : t('inactive')}
                     </span>
                   </td>
                   <td>{customer.region}</td>
@@ -162,7 +112,11 @@ function CustomerTable() {
             ) : (
               <tr>
                 <td colSpan="5" className="empty-table-cell">
-                  No customers match the search criteria.
+                  {searchText
+                    ? (language === 'ur'
+                        ? `تلاش کے مطابق کوئی صارفین نہیں ملے: "${searchText}"`
+                        : `No customers match the search criteria for "${searchText}".`)
+                    : t('noCustomers')}
                 </td>
               </tr>
             )}
@@ -172,32 +126,33 @@ function CustomerTable() {
 
       <div className="customer-table-pagination">
         <span className="pagination-info">
-          Showing {filteredCustomers.length > 0 ? (currentPage - 1) * rowsPerPage + 1 : 0} to{' '}
-          {Math.min(currentPage * rowsPerPage, filteredCustomers.length)} of {filteredCustomers.length} entries
+          {t('showing')} {sortedCustomers.length > 0 ? (safeCurrentPage - 1) * rowsPerPage + 1 : 0} {t('to')}{' '}
+          {Math.min(safeCurrentPage * rowsPerPage, sortedCustomers.length)} {t('of')} {sortedCustomers.length}{' '}
+          {t('entries')}
         </span>
-        
+
         <div className="pagination-buttons">
           <button
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-            disabled={currentPage === 1}
+            disabled={safeCurrentPage === 1}
             className="pagination-btn"
             aria-label="Previous page"
           >
             <FiChevronLeft />
-            <span>Prev</span>
+            <span>{t('prev')}</span>
           </button>
-          
+
           <span className="pagination-current-page">
-            Page {currentPage} of {totalPages}
+            {t('page')} {safeCurrentPage} {t('of')} {totalPages}
           </span>
 
           <button
             onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-            disabled={currentPage === totalPages}
+            disabled={safeCurrentPage === totalPages}
             className="pagination-btn"
             aria-label="Next page"
           >
-            <span>Next</span>
+            <span>{t('next')}</span>
             <FiChevronRight />
           </button>
         </div>

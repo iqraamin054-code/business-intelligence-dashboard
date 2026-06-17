@@ -9,13 +9,13 @@ import { NavLink } from 'react-router-dom'
 import './Sidebar.css'
 
 const navItems = [
-  { path: '/', label: 'Dashboard', icon: FiLayout },
-  { path: '/analytics', label: 'Analytics', icon: FiBarChart2 },
-  { path: '/reports', label: 'Reports', icon: FiFileText },
-  { path: '/settings', label: 'Settings', icon: FiSettings },
+  { path: '/', labelKey: 'navDashboard', icon: FiLayout },
+  { path: '/analytics', labelKey: 'navAnalytics', icon: FiBarChart2 },
+  { path: '/reports', labelKey: 'navReports', icon: FiFileText },
+  { path: '/settings', labelKey: 'navSettings', icon: FiSettings },
 ]
 
-function Sidebar({ isOpen, onClose, onNavigate }) {
+function Sidebar({ isOpen, onClose, onNavigate, t }) {
   return (
     <>
       <div
@@ -42,7 +42,7 @@ function Sidebar({ isOpen, onClose, onNavigate }) {
 
         <nav className="sidebar__nav" aria-label="Main navigation">
           <ul className="sidebar__list">
-            {navItems.map(({ path, label, icon: Icon }) => (
+            {navItems.map(({ path, labelKey, icon: Icon }) => (
               <li key={path}>
                 <NavLink
                   to={path}
@@ -53,7 +53,7 @@ function Sidebar({ isOpen, onClose, onNavigate }) {
                   onClick={onNavigate}
                 >
                   <Icon className="sidebar__link-icon" aria-hidden="true" />
-                  <span>{label}</span>
+                  <span>{t(labelKey)}</span>
                 </NavLink>
               </li>
             ))}

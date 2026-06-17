@@ -1,11 +1,13 @@
 import { useSelector } from 'react-redux'
 import {
   FiDollarSign,
+  FiInbox,
   FiShoppingCart,
+  FiTarget,
   FiTrendingUp,
   FiUsers,
-  FiTarget,
 } from 'react-icons/fi'
+import { useOutletContext } from 'react-router-dom'
 import KpiCard from '../components/cards/KpiCard'
 
 const iconMap = {
@@ -14,6 +16,14 @@ const iconMap = {
   cart: FiShoppingCart,
   trending: FiTrendingUp,
   target: FiTarget,
+}
+
+const kpiTitleKeys = {
+  'Total Revenue': 'totalRevenue',
+  'Total Customers': 'totalCustomers',
+  'Total Orders': 'totalOrders',
+  'Monthly Growth': 'monthlyGrowth',
+  'Conversion Rate': 'conversionRate',
 }
 
 function formatCurrency(value) {
@@ -26,54 +36,82 @@ function formatCurrency(value) {
 
 function Dashboard() {
   const { kpis, revenueData, customers } = useSelector((state) => state.dashboard)
+  const { t, searchText = '' } = useOutletContext()
   const latestRevenue = revenueData.at(-1)?.revenue || 0
   const activeCustomers = customers.filter((customer) => customer.status === 'Active').length
+  const query = searchText.trim().toLowerCase()
+
+  const filteredKpis = kpis.filter((kpi) => {
+    const title = t(kpiTitleKeys[kpi.title] || kpi.title).toLowerCase()
+    return title.includes(query)
+  })
+
+  const quickOverviewItems = [
+    { label: t('latestMonthlyRevenue'), value: formatCurrency(latestRevenue) },
+    { label: t('activeCustomers'), value: String(activeCustomers) },
+    { label: t('reportRows'), value: String(customers.length) },
+  ]
+
+  const filteredQuickOverviewItems = quickOverviewItems.filter((item) =>
+    item.label.toLowerCase().includes(query)
+  )
+
+  const hasResults = filteredKpis.length > 0 || filteredQuickOverviewItems.length > 0
 
   return (
     <div className="dashboard__content-inner">
       <section className="dashboard__welcome" aria-label="Dashboard overview">
-        <h2 className="dashboard__page-title">Dashboard</h2>
+        <h2 className="dashboard__page-title">{t('dashboardTitle')}</h2>
         <p className="dashboard__page-description">
-          Monitor headline performance and review the fastest read on the business today.
+          {t('dashboardDescription')}
         </p>
       </section>
 
       {kpis.length === 0 ? (
         <div className="dashboard__state dashboard__state--empty">
-          <div className="dashboard__state-icon" role="img" aria-label="Empty state">i</div>
-          <h4 className="dashboard__state-title">No Data Available</h4>
+          <FiInbox className="dashboard__state-icon" aria-label="Empty state" />
+          <h4 className="dashboard__state-title">{t('noData')}</h4>
           <p className="dashboard__state-desc">
-            We couldn't retrieve any business intelligence metrics for this segment.
+            {t('noDataDescription')}
           </p>
+        </div>
+      ) : !hasResults ? (
+        <div className="dashboard__state dashboard__state--empty">
+          <FiInbox className="dashboard__state-icon" aria-label="Empty state" />
+          <h4 className="dashboard__state-title">{t('noData')}</h4>
+          <p className="dashboard__state-desc">{t('noDashboardResults')}</p>
         </div>
       ) : (
         <>
-          <section className="dashboard__kpi-section" aria-label="Key performance indicators">
-            <h3 className="dashboard__section-title">KPI Cards</h3>
-            <div className="dashboard__kpi-grid">
-              {kpis.map((kpi) => (
-                <KpiCard key={kpi.title} {...kpi} icon={iconMap[kpi.iconName]} />
-              ))}
-            </div>
-          </section>
+          {filteredKpis.length > 0 && (
+            <section className="dashboard__kpi-section" aria-label="Key performance indicators">
+              <h3 className="dashboard__section-title">{t('kpiCards')}</h3>
+              <div className="dashboard__kpi-grid">
+                {filteredKpis.map((kpi) => (
+                  <KpiCard
+                    key={kpi.title}
+                    {...kpi}
+                    title={t(kpiTitleKeys[kpi.title] || kpi.title)}
+                    icon={iconMap[kpi.iconName]}
+                  />
+                ))}
+              </div>
+            </section>
+          )}
 
-          <section className="quick-overview" aria-labelledby="quick-overview-title">
-            <h3 id="quick-overview-title" className="dashboard__section-title">Quick Overview</h3>
-            <div className="quick-overview__grid">
-              <article className="quick-overview__item">
-                <span className="quick-overview__label">Latest Monthly Revenue</span>
-                <strong className="quick-overview__value">{formatCurrency(latestRevenue)}</strong>
-              </article>
-              <article className="quick-overview__item">
-                <span className="quick-overview__label">Active Customers</span>
-                <strong className="quick-overview__value">{activeCustomers}</strong>
-              </article>
-              <article className="quick-overview__item">
-                <span className="quick-overview__label">Report Rows</span>
-                <strong className="quick-overview__value">{customers.length}</strong>
-              </article>
-            </div>
-          </section>
+          {filteredQuickOverviewItems.length > 0 && (
+            <section className="quick-overview" aria-labelledby="quick-overview-title">
+              <h3 id="quick-overview-title" className="dashboard__section-title">{t('quickOverview')}</h3>
+              <div className="quick-overview__grid">
+                {filteredQuickOverviewItems.map((item) => (
+                  <article className="quick-overview__item" key={item.label}>
+                    <span className="quick-overview__label">{item.label}</span>
+                    <strong className="quick-overview__value">{item.value}</strong>
+                  </article>
+                ))}
+              </div>
+            </section>
+          )}
         </>
       )}
     </div>

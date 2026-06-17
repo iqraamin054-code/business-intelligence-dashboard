@@ -50,12 +50,12 @@ function CategoryTooltip({ active, payload }) {
   )
 }
 
-function CategoryChart() {
+function CategoryChart({ title = 'Category Distribution' }) {
   const categoryData = useSelector((state) => state.dashboard.categoryData)
 
   return (
     <section className="category-chart" aria-label="Category distribution chart">
-      <h3 className="category-chart__title">Category Distribution</h3>
+      <h3 className="category-chart__title">{title}</h3>
       <div className="category-chart__container">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>

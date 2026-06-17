@@ -1,39 +1,47 @@
-import { FiMoon, FiSun } from 'react-icons/fi'
+import { FiInbox, FiMoon, FiSun } from 'react-icons/fi'
 import { useOutletContext } from 'react-router-dom'
 
 const themeOptions = [
   {
     value: 'light',
-    label: 'Light',
-    description: 'Bright workspace for daytime reporting.',
+    labelKey: 'lightMode',
+    descriptionKey: 'lightDescription',
     icon: FiSun,
   },
   {
     value: 'dark',
-    label: 'Dark',
-    description: 'Low-light mode for focused analysis.',
+    labelKey: 'darkMode',
+    descriptionKey: 'darkDescription',
     icon: FiMoon,
   },
 ]
 
 function Settings() {
-  const { theme, setTheme, toggleTheme } = useOutletContext()
+  const { theme, setTheme, toggleTheme, t, searchText = '' } = useOutletContext()
+  const query = searchText.trim().toLowerCase()
+
+  const filteredOptions = themeOptions.filter(({ labelKey, descriptionKey }) => {
+    return (
+      t(labelKey).toLowerCase().includes(query) ||
+      t(descriptionKey).toLowerCase().includes(query)
+    )
+  })
 
   return (
     <div className="dashboard__content-inner">
       <section className="dashboard__welcome" aria-label="Settings overview">
-        <h2 className="dashboard__page-title">Settings</h2>
+        <h2 className="dashboard__page-title">{t('settingsTitle')}</h2>
         <p className="dashboard__page-description">
-          Choose the display mode that fits your workspace and reporting environment.
+          {t('settingsDescription')}
         </p>
       </section>
 
       <section className="settings-panel" aria-labelledby="theme-settings-title">
         <div className="settings-panel__header">
           <div>
-            <h3 id="theme-settings-title" className="dashboard__section-title">Appearance</h3>
+            <h3 id="theme-settings-title" className="dashboard__section-title">{t('appearance')}</h3>
             <p className="settings-panel__description">
-              Your theme preference is saved on this device.
+              {t('themeSaved')}
             </p>
           </div>
 
@@ -43,30 +51,38 @@ function Settings() {
             onClick={toggleTheme}
           >
             {theme === 'light' ? <FiMoon aria-hidden="true" /> : <FiSun aria-hidden="true" />}
-            <span>Switch to {theme === 'light' ? 'Dark' : 'Light'}</span>
+            <span>{theme === 'light' ? t('switchToDark') : t('switchToLight')}</span>
           </button>
         </div>
 
-        <div className="settings-panel__options" role="radiogroup" aria-label="Theme mode">
-          {themeOptions.map(({ value, label, description, icon: Icon }) => (
-            <button
-              key={value}
-              type="button"
-              className={`settings-panel__option ${theme === value ? 'settings-panel__option--active' : ''}`}
-              onClick={() => setTheme(value)}
-              role="radio"
-              aria-checked={theme === value}
-            >
-              <span className="settings-panel__option-icon">
-                <Icon aria-hidden="true" />
-              </span>
-              <span>
-                <span className="settings-panel__option-label">{label} Mode</span>
-                <span className="settings-panel__option-description">{description}</span>
-              </span>
-            </button>
-          ))}
-        </div>
+        {filteredOptions.length === 0 ? (
+          <div className="dashboard__state dashboard__state--empty" style={{ marginTop: '2rem' }}>
+            <FiInbox className="dashboard__state-icon" aria-label="Empty state" />
+            <h4 className="dashboard__state-title">{t('noData')}</h4>
+            <p className="dashboard__state-desc">{t('noSettingsResults')}</p>
+          </div>
+        ) : (
+          <div className="settings-panel__options" role="radiogroup" aria-label="Theme mode">
+            {filteredOptions.map(({ value, labelKey, descriptionKey, icon: Icon }) => (
+              <button
+                key={value}
+                type="button"
+                className={`settings-panel__option ${theme === value ? 'settings-panel__option--active' : ''}`}
+                onClick={() => setTheme(value)}
+                role="radio"
+                aria-checked={theme === value}
+              >
+                <span className="settings-panel__option-icon">
+                  <Icon aria-hidden="true" />
+                </span>
+                <span>
+                  <span className="settings-panel__option-label">{t(labelKey)}</span>
+                  <span className="settings-panel__option-description">{t(descriptionKey)}</span>
+                </span>
+              </button>
+            ))}
+          </div>
+        )}
       </section>
     </div>
   )
