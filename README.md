@@ -1,5 +1,9 @@
 # 📊 Business Intelligence Analytics Dashboard
 
+<p align="center">
+  <img src="src/assets/screenshots/Business-Intelligence.png" alt="Business Intelligence Dashboard Banner" width="100%">
+</p>
+
 ## Overview
 
 The **Business Intelligence Analytics Dashboard** is a modern and responsive web application developed as part of the **TEYZIX CORE Frontend Web Development Internship (June Batch)**.
