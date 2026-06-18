@@ -143,12 +143,6 @@ src/
 
 ---
 
-# 🌐 Live Demo
-
-Coming Soon (Will be updated after deployment)
-
----
-
 # 📂 Repository
 
 https://github.com/iqraamin054-code/business-intelligence-dashboard
