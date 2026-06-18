@@ -51,18 +51,11 @@
 }
 
 .sidebar__brand-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
   width: 2.5rem;
   height: 2.5rem;
   border-radius: var(--radius-md);
-  background: var(--accent-gradient);
-  color: #fff;
-  font-family: var(--font-title);
-  font-size: 0.85rem;
-  font-weight: 800;
-  letter-spacing: 0.04em;
+  object-fit: cover;
   box-shadow: var(--accent-glow);
   transition: transform 0.3s ease;
 }

@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { FiInbox, FiMoon, FiSun } from 'react-icons/fi'
 import { useOutletContext } from 'react-router-dom'
 
@@ -17,8 +18,9 @@ const themeOptions = [
 ]
 
 function Settings() {
-  const { theme, setTheme, toggleTheme, t, searchText = '' } = useOutletContext()
+  const { theme, setTheme, toggleTheme, t, searchText = '', profile, updateProfile, showProfileForm, closeProfileForm, showToast } = useOutletContext()
   const query = searchText.trim().toLowerCase()
+  const [formValues, setFormValues] = useState(profile || { name: '', email: '', role: '' })
 
   const filteredOptions = themeOptions.filter(({ labelKey, descriptionKey }) => {
     return (
@@ -26,6 +28,17 @@ function Settings() {
       t(descriptionKey).toLowerCase().includes(query)
     )
   })
+
+  const handleFieldChange = (field, value) => {
+    setFormValues((current) => ({ ...current, [field]: value }))
+  }
+
+  const handleProfileSubmit = (event) => {
+    event.preventDefault()
+    updateProfile(formValues)
+    closeProfileForm()
+    showToast(t('profileSaved'))
+  }
 
   return (
     <div className="dashboard__content-inner">
@@ -35,6 +48,55 @@ function Settings() {
           {t('settingsDescription')}
         </p>
       </section>
+
+      {showProfileForm && (
+        <section className="settings-panel" aria-labelledby="profile-settings-title">
+          <div className="settings-panel__header">
+            <div>
+              <h3 id="profile-settings-title" className="dashboard__section-title">{t('profileSection')}</h3>
+              <p className="settings-panel__description">
+                {t('profileSectionDescription')}
+              </p>
+            </div>
+          </div>
+
+          <form className="profile-form" onSubmit={handleProfileSubmit}>
+            <label>
+              <span>{t('fullName')}</span>
+              <input
+                type="text"
+                value={formValues.name}
+                onChange={(event) => handleFieldChange('name', event.target.value)}
+                required
+              />
+            </label>
+
+            <label>
+              <span>{t('email')}</span>
+              <input
+                type="email"
+                value={formValues.email}
+                onChange={(event) => handleFieldChange('email', event.target.value)}
+                required
+              />
+            </label>
+
+            <label>
+              <span>{t('role')}</span>
+              <input
+                type="text"
+                value={formValues.role}
+                onChange={(event) => handleFieldChange('role', event.target.value)}
+                required
+              />
+            </label>
+
+            <button type="submit" className="settings-panel__toggle">
+              {t('saveChanges')}
+            </button>
+          </form>
+        </section>
+      )}
 
       <section className="settings-panel" aria-labelledby="theme-settings-title">
         <div className="settings-panel__header">

@@ -7,6 +7,7 @@ import {
 } from 'react-icons/fi'
 import { NavLink } from 'react-router-dom'
 import './Sidebar.css'
+import logo from '../../assets/logo-icon.png'
 
 const navItems = [
   { path: '/', labelKey: 'navDashboard', icon: FiLayout },
@@ -27,7 +28,7 @@ function Sidebar({ isOpen, onClose, onNavigate, t }) {
       <aside className={`sidebar ${isOpen ? 'sidebar--open' : ''}`}>
         <div className="sidebar__header">
           <div className="sidebar__brand">
-            <span className="sidebar__brand-icon">BI</span>
+            <img src={logo} alt="InsightHub logo" className="sidebar__brand-icon" />
             <span className="sidebar__brand-text">InsightHub</span>
           </div>
           <button

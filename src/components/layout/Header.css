@@ -194,6 +194,11 @@
   transition: all 0.2s ease;
 }
 
+.header__profile-initials {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
 .header__profile:hover {
   transform: scale(1.08);
   box-shadow: var(--accent-glow);

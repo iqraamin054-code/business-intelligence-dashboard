@@ -11,10 +11,28 @@ import Settings from './pages/Settings'
 import { getTranslator } from './utils/i18n'
 import './pages/Dashboard.css'
 
+const defaultProfile = {
+  name: 'Admin User',
+  role: 'Business Intelligence Analyst',
+  email: 'admin@insighthub.com',
+}
+
+function loadStoredProfile() {
+  try {
+    const stored = JSON.parse(localStorage.getItem('bi-profile'))
+    return stored ? { ...defaultProfile, ...stored } : defaultProfile
+  } catch {
+    return defaultProfile
+  }
+}
+
 function AppShell() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [theme, setTheme] = useState(() => localStorage.getItem('bi-theme') || 'light')
   const [language, setLanguage] = useState(() => localStorage.getItem('bi-language') || 'en')
+  const [profile, setProfile] = useState(loadStoredProfile)
+  const [showProfileForm, setShowProfileForm] = useState(false)
+  const [toastMessage, setToastMessage] = useState(null)
   const [searchText, setSearchText] = useState('')
   const dispatch = useDispatch()
   const { loading, error, dataFetched } = useSelector((state) => state.dashboard)
@@ -41,9 +59,33 @@ function AppShell() {
     localStorage.setItem('bi-language', language)
   }, [language])
 
+  useEffect(() => {
+    if (location.pathname !== '/settings') {
+      setShowProfileForm(false)
+    }
+  }, [location.pathname])
+
+  useEffect(() => {
+    localStorage.setItem('bi-profile', JSON.stringify(profile))
+  }, [profile])
+
+  useEffect(() => {
+    if (!toastMessage) return
+    const timer = setTimeout(() => setToastMessage(null), 2500)
+    return () => clearTimeout(timer)
+  }, [toastMessage])
+
   const toggleTheme = () => {
     setTheme((currentTheme) => (currentTheme === 'light' ? 'dark' : 'light'))
   }
+
+  const updateProfile = (updates) => {
+    setProfile((currentProfile) => ({ ...currentProfile, ...updates }))
+  }
+
+  const openProfileForm = () => setShowProfileForm(true)
+  const closeProfileForm = () => setShowProfileForm(false)
+  const showToast = (message) => setToastMessage(message)
 
   return (
     <div className="dashboard">
@@ -66,6 +108,8 @@ function AppShell() {
           t={t}
           loading={loading}
           error={error}
+          profile={profile}
+          onOpenProfile={openProfileForm}
         />
 
         <main className="dashboard__content">
@@ -96,11 +140,38 @@ function AppShell() {
                 t,
                 searchText,
                 setSearchText,
+                profile,
+                updateProfile,
+                showProfileForm,
+                closeProfileForm,
+                showToast,
               }}
             />
           )}
         </main>
       </div>
+
+      {toastMessage && (
+        <div
+          role="status"
+          style={{
+            position: 'fixed',
+            top: '1.25rem',
+            right: '1.25rem',
+            zIndex: 200,
+            padding: '0.75rem 1.25rem',
+            borderRadius: 'var(--radius-lg)',
+            background: 'var(--bg-card)',
+            border: '1px solid var(--border-color)',
+            boxShadow: 'var(--shadow-lg)',
+            color: 'var(--color-success)',
+            fontWeight: 600,
+            fontSize: '0.875rem',
+          }}
+        >
+          {toastMessage}
+        </div>
+      )}
     </div>
   )
 }

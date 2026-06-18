@@ -22,6 +22,13 @@ const searchPlaceholderMap = {
   '/settings': 'searchSettings',
 }
 
+function getInitials(name) {
+  if (!name) return '?'
+  const parts = name.trim().split(/\s+/)
+  const initials = parts.length > 1 ? parts[0][0] + parts[parts.length - 1][0] : parts[0][0]
+  return initials.toUpperCase()
+}
+
 function Header({
   onMenuToggle,
   theme,
@@ -33,6 +40,8 @@ function Header({
   t,
   loading,
   error,
+  profile,
+  onOpenProfile,
 }) {
   const [openMenu, setOpenMenu] = useState(null)
   const headerRef = useRef(null)
@@ -137,20 +146,20 @@ function Header({
         </div>
 
         <div className="header__menu-wrap">
-          <button
+         <button
             type="button"
             className="header__profile"
             onClick={() => toggleMenu('profile')}
             aria-label="User profile"
             aria-expanded={openMenu === 'profile'}
           >
-            <FiUser />
+            <span className="header__profile-initials">{getInitials(profile?.name)}</span>
           </button>
           {openMenu === 'profile' && (
             <div className="header__dropdown header__profile-menu">
-              <strong>{t('adminUser')}</strong>
-              <span>{t('biAnalyst')}</span>
-              <NavLink to="/settings" onClick={() => setOpenMenu(null)}>
+              <strong>{profile?.name || t('adminUser')}</strong>
+              <span>{profile?.role || t('biAnalyst')}</span>
+              <NavLink to="/settings" onClick={() => { setOpenMenu(null); onOpenProfile?.() }}>
                 <FiUser aria-hidden="true" />
                 {t('profile')}
               </NavLink>
